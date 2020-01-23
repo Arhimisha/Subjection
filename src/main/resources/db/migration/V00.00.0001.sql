@@ -1,9 +1,8 @@
 CREATE TABLE "users" (
                         id                      int8                NOT NULL UNIQUE,
-                        email                   TEXT                NOT NULL,
+                        email                   TEXT                NOT NULL UNIQUE,
                         username                TEXT                NOT NULL UNIQUE,
                         password                TEXT                NOT NULL,
-                        status                  TEXT                NOT NULL,
                         first_name              TEXT                NOT NULL,
                         last_name               TEXT,
                         enabled                 BOOLEAN             NOT NULL DEFAULT TRUE, -- включен ли аккаунт
