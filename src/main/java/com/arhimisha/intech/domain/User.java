@@ -1,12 +1,15 @@
 package com.arhimisha.intech.domain;
 
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collection;
 
 @Entity
 @Table(name = "users")
-public class User {
+public class User implements UserDetails {
     @Id
     @GeneratedValue(generator = "USER_GENERATOR", strategy = GenerationType.SEQUENCE)
     @SequenceGenerator(name = "USER_GENERATOR", allocationSize = 1, sequenceName = "user_id_seq")
@@ -29,16 +32,16 @@ public class User {
     private String lastName;
 
     @Column (name = "enabled")
-    private Boolean enabled;
+    private boolean enabled;
 
     @Column (name = "account_non_expired")
-    private Boolean accountNonExpired;
+    private boolean accountNonExpired;
 
     @Column (name = "account_non_locked")
-    private Boolean accountNonLocked;
+    private boolean accountNonLocked;
 
     @Column (name = "credentials_non_expired")
-    private Boolean credentialsNonExpired;
+    private boolean credentialsNonExpired;
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "user_id")
@@ -53,10 +56,10 @@ public class User {
                 String password,
                 String firstName,
                 String lastName,
-                Boolean enabled,
-                Boolean accountNonExpired,
-                Boolean accountNonLocked,
-                Boolean credentialsNonExpired,
+                boolean enabled,
+                boolean accountNonExpired,
+                boolean accountNonLocked,
+                boolean credentialsNonExpired,
                 Collection<Authority> authorities) {
         this.id = id;
         this.email = email;
@@ -91,6 +94,7 @@ public class User {
         this.email = email;
     }
 
+    @Override
     public String getUsername() {
         return username;
     }
@@ -99,6 +103,7 @@ public class User {
         this.username = username;
     }
 
+    @Override
     public String getPassword() {
         return password;
     }
@@ -123,7 +128,8 @@ public class User {
         this.lastName = lastName;
     }
 
-    public Boolean getEnabled() {
+    @Override
+    public boolean isEnabled() {
         return enabled;
     }
 
@@ -131,7 +137,8 @@ public class User {
         this.enabled = enabled;
     }
 
-    public Boolean getAccountNonExpired() {
+    @Override
+    public boolean isAccountNonExpired() {
         return accountNonExpired;
     }
 
@@ -139,7 +146,8 @@ public class User {
         this.accountNonExpired = accountNonExpired;
     }
 
-    public Boolean getAccountNonLocked() {
+    @Override
+    public boolean isAccountNonLocked() {
         return accountNonLocked;
     }
 
@@ -147,7 +155,8 @@ public class User {
         this.accountNonLocked = accountNonLocked;
     }
 
-    public Boolean getCredentialsNonExpired() {
+    @Override
+    public boolean isCredentialsNonExpired() {
         return credentialsNonExpired;
     }
 
@@ -155,7 +164,8 @@ public class User {
         this.credentialsNonExpired = credentialsNonExpired;
     }
 
-    public Collection<Authority> getAuthorities() {
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
         Collection<Authority> authorityCollection = new ArrayList<Authority>();
         authorityCollection.addAll(this.authorities);
         return authorityCollection;

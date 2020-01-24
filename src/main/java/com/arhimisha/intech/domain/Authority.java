@@ -1,10 +1,12 @@
 package com.arhimisha.intech.domain;
 
+import org.springframework.security.core.GrantedAuthority;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name = "authority")
-public class Authority {
+public class Authority implements GrantedAuthority {
     @Id
     @GeneratedValue(generator = "AUTHORITY_GENERATOR", strategy = GenerationType.SEQUENCE)
     @SequenceGenerator(name = "AUTHORITY_GENERATOR", allocationSize = 1, sequenceName = "authority_id_seq")
@@ -34,6 +36,7 @@ public class Authority {
         this.id = id;
     }
 
+    @Override
     public String getAuthority() {
         return authority;
     }

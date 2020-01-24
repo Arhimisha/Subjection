@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Registration</title>
+</head>
+<body>
+
+
+<div data-th-if="error">
+   [[ ${error} ]]
+</div>
+<form data-th-action="@{/registration}" method="post">
+   <input name="username" placeholder="Login" required> <br>
+   <input name="password" type="password" placeholder="Password" required><br>
+   <input name="conform" type="password" placeholder="Conform password" required><br>
+   <input name="email" type="email" placeholder="email@email.com" required><br>
+   <button>Registration</button>
+</form>
+
+</body>
+</html>
