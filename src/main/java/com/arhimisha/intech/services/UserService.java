@@ -38,22 +38,36 @@ public class UserService implements UserDetailsService {
     }
 
     public void registrationUser(RegistrationDetails registrationDetails) {
-        if (userRepository.findByUsername(registrationDetails.getUsername()) != null) {
-            throw new RuntimeException("User with username " + registrationDetails.getUsername() + " is already exist");
+        final String username = registrationDetails.getUsername();
+        final String password = registrationDetails.getPassword();
+        final String email = registrationDetails.getEmail();
+
+        if (username == null || username.isBlank()) {
+            throw new RuntimeException("Login is empty");
         }
-        if (userRepository.findByEmail(registrationDetails.getEmail()) != null) {
-            throw new RuntimeException("User with email " + registrationDetails.getEmail() + " is already exist");
+        if (password == null || password.isBlank()) {
+            throw new RuntimeException("Password is empty");
+        }
+        if (email == null || email.isBlank()){
+            throw new RuntimeException("Email is empty");
         }
 
-        if ( !registrationDetails.getPassword().equals(registrationDetails.getConform())){
+        if (userRepository.findByUsername(username) != null) {
+            throw new RuntimeException("User with username " + username + " is already exist");
+        }
+        if (userRepository.findByEmail(email) != null) {
+            throw new RuntimeException("User with email " + email + " is already exist");
+        }
+
+        if (!password.equals(registrationDetails.getConform())) {
             throw new RuntimeException("Password doesn't match");
         }
 
-        User user = new User (
+        User user = new User(
                 0L,
-                registrationDetails.getEmail(),
-                registrationDetails.getUsername(),
-                passwordEncoder.encode(registrationDetails.getPassword()),
+                email,
+                username,
+                passwordEncoder.encode(password),
                 "",
                 "",
                 true,
