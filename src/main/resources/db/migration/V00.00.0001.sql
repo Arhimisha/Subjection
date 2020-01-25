@@ -17,7 +17,7 @@ CREATE TABLE "users" (
 CREATE SEQUENCE "user_id_seq" START 1;
 
 CREATE TABLE  "authority" (
-                        id        int8,
+                        id        int8  NOT NULL UNIQUE,
                         user_id   int8  NOT NULL,
                         authority TEXT  NOT NULL,
                         CONSTRAINT authority_pk    PRIMARY KEY (id)
