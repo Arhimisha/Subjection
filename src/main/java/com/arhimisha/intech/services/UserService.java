@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 
 @Service
 @Transactional
@@ -69,14 +69,14 @@ public class UserService implements UserDetailsService {
                 email,
                 username,
                 passwordEncoder.encode(password),
-                "",
-                "",
+                registrationDetails.getFirstName(),
+                registrationDetails.getLastName(),
                 true,
                 true,
                 true,
                 true,
-                new ArrayList<Authority>());
-        user.setAuthorities(new ArrayList<Authority>(Arrays.asList(new Authority(0L, "ROLE_USER", user))));
+                new ArrayList<>());
+        user.setAuthorities(new ArrayList<>(Collections.singletonList(new Authority(0L, "ROLE_USER", user))));
         userRepository.save(user);
     }
 }

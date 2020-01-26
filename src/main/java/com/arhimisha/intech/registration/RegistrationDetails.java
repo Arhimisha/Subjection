@@ -4,12 +4,16 @@ public class RegistrationDetails {
     private String username;
     private String password;
     private String conform;
+    private String firstName;
+    private String lastName;
     private String email;
 
-    public RegistrationDetails(String username, String password, String conform, String email) {
+    public RegistrationDetails(String username, String password, String conform, String firstName, String lastName, String email) {
         this.username = username;
         this.password = password;
         this.conform = conform;
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.email = email;
     }
 
@@ -38,6 +42,22 @@ public class RegistrationDetails {
 
     public void setConform(String conform) {
         this.conform = conform;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getEmail() {

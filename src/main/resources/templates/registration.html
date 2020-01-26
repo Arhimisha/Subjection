@@ -8,14 +8,16 @@
 
 
 <div data-th-if="error">
-   [[ ${error} ]]
+    [[ ${error} ]]
 </div>
 <form data-th-action="@{/registration}" method="post">
-   <input name="username" placeholder="Login" required> <br>
-   <input name="password" type="password" placeholder="Password" required><br>
-   <input name="conform" type="password" placeholder="Conform password" required><br>
-   <input name="email" type="email" placeholder="email@email.com" required><br>
-   <button>Registration</button>
+    <div><label>Login: <input name="username" type ="text" placeholder="Login" required> </label></div>
+    <div><label>Password: <input name="password" type="password" placeholder="Password" required> </label></div>
+    <div><label>Conform: <input name="conform" type="password" placeholder="Conform password" required> </label></div>
+    <div><label>First name: <input name="firstName" type="text" placeholder="First name" required> </label></div>
+    <div><label>Last name: <input name="lastName" type="text" placeholder="Last name" required> </label></div>
+    <div><label>Email: <input name="email" type="email" placeholder="email@email.com" required> </label></div>
+    <div><button>Registration</button></div>
 </form>
 
 </body>
