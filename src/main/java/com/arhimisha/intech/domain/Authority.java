@@ -11,7 +11,7 @@ public class Authority implements GrantedAuthority {
     @GeneratedValue(generator = "AUTHORITY_GENERATOR", strategy = GenerationType.SEQUENCE)
     @SequenceGenerator(name = "AUTHORITY_GENERATOR", allocationSize = 1, sequenceName = "authority_id_seq")
     @Column(name = "id", nullable = false)
-    private Long id;
+    private long id;
 
     @Column (name = "authority", nullable = false)
     private String authority;
@@ -19,7 +19,7 @@ public class Authority implements GrantedAuthority {
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 
-    public Authority(Long id, String authority, User user) {
+    public Authority(long id, String authority, User user) {
         this.id = id;
         this.authority = authority;
         this.user = user;
@@ -28,11 +28,11 @@ public class Authority implements GrantedAuthority {
     public Authority() {
     }
 
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(long id) {
         this.id = id;
     }
 

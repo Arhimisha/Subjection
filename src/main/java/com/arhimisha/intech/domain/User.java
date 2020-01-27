@@ -14,7 +14,7 @@ public class User implements UserDetails {
     @GeneratedValue(generator = "USER_GENERATOR", strategy = GenerationType.SEQUENCE)
     @SequenceGenerator(name = "USER_GENERATOR", allocationSize = 1, sequenceName = "user_id_seq")
     @Column(name = "id", nullable = false)
-    private Long id;
+    private long id;
 
     @Column(name = "email", nullable = false, unique = true)
     private String email;
@@ -50,7 +50,7 @@ public class User implements UserDetails {
     public User() {
     }
 
-    public User(Long id,
+    public User(long id,
                 String email,
                 String username,
                 String password,
@@ -78,11 +78,11 @@ public class User implements UserDetails {
     public User(String id) {
     }
 
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(long id) {
         this.id = id;
     }
 
