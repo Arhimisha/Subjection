@@ -1,0 +1,12 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Getting Started: Serving Web Content</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+<p data-th-utext="'Hello, '+(${userFullName != null}? ${userFullName}:'friend') + '!'"/>
+<p>Click <a data-th-href="@{/login}">here</a> to log in.</p>
+<p>Click <a data-th-href="@{/registration}">here</a> to registration new user.</p>
+</body>
+</html>
