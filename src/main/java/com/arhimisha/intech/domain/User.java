@@ -6,6 +6,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.StringJoiner;
 
 @Entity
 @Table(name = "users")
@@ -19,28 +20,28 @@ public class User implements UserDetails {
     @Column(name = "email", nullable = false, unique = true)
     private String email;
 
-    @Column (name = "username", nullable = false, unique = true)
+    @Column(name = "username", nullable = false, unique = true)
     private String username;
 
     @Column(name = "password", nullable = false)
     private String password;
 
-    @Column (name = "first_name")
+    @Column(name = "first_name")
     private String firstName;
 
-    @Column (name = "last_name")
+    @Column(name = "last_name")
     private String lastName;
 
-    @Column (name = "enabled")
+    @Column(name = "enabled")
     private boolean enabled;
 
-    @Column (name = "account_non_expired")
+    @Column(name = "account_non_expired")
     private boolean accountNonExpired;
 
-    @Column (name = "account_non_locked")
+    @Column(name = "account_non_locked")
     private boolean accountNonLocked;
 
-    @Column (name = "credentials_non_expired")
+    @Column(name = "credentials_non_expired")
     private boolean credentialsNonExpired;
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
@@ -175,5 +176,16 @@ public class User implements UserDetails {
     public void setAuthorities(Collection<Authority> authorities) {
         this.authorities = new ArrayList<Authority>();
         this.authorities.addAll(authorities);
+    }
+
+    public String getFullName() {
+        final StringJoiner joiner = new StringJoiner(" ");
+        if (this.firstName != null) {
+            joiner.add(firstName);
+        }
+        if (this.lastName != null) {
+            joiner.add(this.lastName);
+        }
+        return joiner.length() > 0 ? joiner.toString() : "User_without_name";
     }
 }

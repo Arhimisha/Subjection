@@ -25,7 +25,7 @@ public class MainController {
         if(userDetails != null){
 
             User user = (User) userService.loadUserByUsername(userDetails.getUsername());
-            modelAndView.addObject("userFullName",user.getFirstName() + " " + user.getLastName());
+            modelAndView.addObject("userFullName",user.getFullName());
         }
         return modelAndView;
     }
