@@ -10,6 +10,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.Optional;
+
 @Controller
 public class MainController {
 
@@ -23,14 +25,10 @@ public class MainController {
     @RequestMapping("/")
     public ModelAndView main(@AuthenticationPrincipal UserDetails userDetails) {
         final ModelAndView modelAndView = new ModelAndView("main");
-        if(userDetails != null){
-            try {
-                final UserDetails user =  userService.loadUserByUsername(userDetails.getUsername());
-                if(user != null && user instanceof User){
-                    modelAndView.addObject("userFullName",((User)user).getFullName());
-                }
-            } catch (UsernameNotFoundException e) {
-                throw new RuntimeException(e.getMessage());
+        if (userDetails != null) {
+            final Optional<User> user = userService.findUserByUsername(userDetails.getUsername());
+            if (user.isPresent()) {
+                modelAndView.addObject("userFullName", user.get().getFullName());
             }
         }
         return modelAndView;

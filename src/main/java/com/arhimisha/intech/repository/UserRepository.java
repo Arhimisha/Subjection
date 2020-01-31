@@ -4,10 +4,12 @@ import com.arhimisha.intech.domain.User;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public interface UserRepository extends PagingAndSortingRepository<User, Long> {
 
-    public User findByUsername(String username);
+    public Optional<User> findByUsername(String username);
 
-    public User findByEmail (String email);
+    public Optional<User> findByEmail (String email);
 }

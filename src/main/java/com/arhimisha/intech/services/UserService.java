@@ -5,7 +5,6 @@ import com.arhimisha.intech.domain.User;
 import com.arhimisha.intech.registration.RegistrationDetails;
 import com.arhimisha.intech.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -15,6 +14,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -31,11 +31,15 @@ public class UserService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        try {
-            return userRepository.findByUsername(username);
-        } catch (EmptyResultDataAccessException e) {
+        final Optional<User> user = userRepository.findByUsername(username);
+        if(user.isEmpty()){
             throw new UsernameNotFoundException("Username Not Found");
         }
+        return user.get();
+    }
+
+    public Optional<User> findUserByUsername(String username){
+        return userRepository.findByUsername(username);
     }
 
     public void registrationUser(RegistrationDetails registrationDetails) {
@@ -53,10 +57,10 @@ public class UserService implements UserDetailsService {
             throw new RuntimeException("Email is empty");
         }
 
-        if (userRepository.findByUsername(username) != null) {
+        if (userRepository.findByUsername(username).isPresent()) {
             throw new RuntimeException("User with username " + username + " is already exist");
         }
-        if (userRepository.findByEmail(email) != null) {
+        if (userRepository.findByEmail(email).isPresent()) {
             throw new RuntimeException("User with email " + email + " is already exist");
         }
 
