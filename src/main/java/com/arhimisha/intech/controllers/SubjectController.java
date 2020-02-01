@@ -28,21 +28,14 @@ public class SubjectController {
     }
 
     @GetMapping(value = "/{id:^[0-9]+$}")
-    public ModelAndView getSubject(@PathVariable String id) {
+    public ModelAndView getSubject(@PathVariable long id) {
         ModelAndView model = new ModelAndView("subject");
 
-        long longId = 0L;
-        try {
-            longId = Long.parseLong(id);
-        } catch (NumberFormatException e) {
-            //todo переделать все RuntimeException в открытие страниц с ошибкой 404 кроме страницы регистрации
-            throw new RuntimeException("Id in url is not a number");
-        }
-
-        Optional<Subject> subject = subjectService.loadById(longId);
+        Optional<Subject> subject = subjectService.loadById(id);
         if (subject.isEmpty() || subject.get().isDeleted()) {
             throw new RuntimeException("Subject is not found");
         }
+        model.addObject("id", id);
         model.addObject("name", subject.get().getName());
         model.addObject("description", subject.get().getDescription());
         model.addObject("author", subject.get().getAuthor().getFullName());
