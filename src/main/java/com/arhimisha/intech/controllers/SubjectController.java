@@ -53,8 +53,8 @@ public class SubjectController {
             throw new RuntimeException("Subject Name is empty");
         }
 
-        final User user = (User) userService.loadUserByUsername(userDetails.getUsername());
-        if (user == null) {
+        final Optional<User> user = this.userService.findUserByUsername(userDetails.getUsername());
+        if (user.isEmpty() || !user.get().isEnabled()) {
             throw new RuntimeException("User " + userDetails.getUsername() + " is not exist");
         }
         Subject subject = new Subject(
