@@ -31,7 +31,7 @@ public class SubjectController {
     public ModelAndView getSubject(@PathVariable long id) {
         ModelAndView model = new ModelAndView("subject");
 
-        Optional<Subject> subject = subjectService.loadById(id);
+        Optional<Subject> subject = this.subjectService.loadById(id);
         if (subject.isEmpty() || subject.get().isDeleted()) {
             throw new RuntimeException("Subject is not found");
         }
@@ -61,11 +61,11 @@ public class SubjectController {
                 0L,
                 name,
                 description,
-                user,
+                user.get(),
                 new GregorianCalendar(),
                 false
         );
-        subject = subjectService.save(subject);
+        subject = this.subjectService.save(subject);
         return "redirect:/subject/" + subject.getId();
     }
 

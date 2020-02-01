@@ -26,7 +26,7 @@ public class MainController {
     public ModelAndView main(@AuthenticationPrincipal UserDetails userDetails) {
         final ModelAndView modelAndView = new ModelAndView("main");
         if (userDetails != null) {
-            final Optional<User> user = userService.findUserByUsername(userDetails.getUsername());
+            final Optional<User> user = this.userService.findUserByUsername(userDetails.getUsername());
             if (user.isPresent()) {
                 modelAndView.addObject("userFullName", user.get().getFullName());
             }

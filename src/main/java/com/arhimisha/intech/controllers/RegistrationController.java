@@ -28,7 +28,7 @@ public class RegistrationController {
     @PostMapping
     public String registerUser(RegistrationDetails registrationDetails, Model model){
         try{
-            userService.registrationUser(registrationDetails);
+            this.userService.registrationUser(registrationDetails);
         } catch (RuntimeException e){
             model.addAttribute("error", e.getMessage());
             return "registration";
