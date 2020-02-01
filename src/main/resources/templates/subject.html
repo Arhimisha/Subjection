@@ -10,5 +10,13 @@
 <div>Description: <span data-th-text="${description}"></span></div>
 <div>Author: <span data-th-text="${author}"></span></div>
 <div>CreationDate: <span data-th-text="${creationDate}"></span></div>
+<br>
+<br>
+<form data-th-action="@{/message/create}" method="post">
+    <div>New message</div>
+    <div><label><textarea name="text_message" rows="4" required="true"></textarea></label></div>
+    <div hidden="true"><label><input name="subjectId" required="true" data-th-value="${id}"> </label></div>
+    <div><input type="submit" value="Create"></div>
+</form>
 </body>
 </html>
