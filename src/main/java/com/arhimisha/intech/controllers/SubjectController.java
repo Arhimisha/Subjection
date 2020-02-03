@@ -2,9 +2,11 @@ package com.arhimisha.intech.controllers;
 
 import com.arhimisha.intech.domain.Subject;
 import com.arhimisha.intech.domain.User;
+import com.arhimisha.intech.services.MessageService;
 import com.arhimisha.intech.services.SubjectService;
 import com.arhimisha.intech.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -20,11 +22,13 @@ public class SubjectController {
 
     private final SubjectService subjectService;
     private final UserService userService;
+    private final MessageService messageService;
 
     @Autowired
-    public SubjectController(SubjectService subjectService, UserService userService) {
+    public SubjectController(SubjectService subjectService, UserService userService, MessageService messageService) {
         this.subjectService = subjectService;
         this.userService = userService;
+        this.messageService = messageService;
     }
 
     @GetMapping(value = "/{id:^[0-9]+$}")
@@ -40,6 +44,14 @@ public class SubjectController {
         model.addObject("description", subject.get().getDescription());
         model.addObject("author", subject.get().getAuthor().getFullName());
         model.addObject("creationDate", subject.get().getCreationDate().getTime());
+        model.addObject(
+                "messages",
+                this.messageService.loadAllBySubjectAndDeleted(
+                        subject.get(),
+                        false,
+                        Sort.by(Sort.Direction.ASC, "creationDate")
+                )
+        );
         return model;
     }
 
@@ -68,5 +80,4 @@ public class SubjectController {
         subject = this.subjectService.save(subject);
         return "redirect:/subject/" + subject.getId();
     }
-
 }
