@@ -1,4 +1,4 @@
-package com.arhimisha.intech.domain;
+package com.arhimisha.intech.dto;
 
 import javax.persistence.*;
 import java.util.Calendar;

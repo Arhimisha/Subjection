@@ -1,7 +1,7 @@
 package com.arhimisha.intech.repository;
 
-import com.arhimisha.intech.domain.Message;
-import com.arhimisha.intech.domain.Subject;
+import com.arhimisha.intech.dto.Message;
+import com.arhimisha.intech.dto.Subject;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
