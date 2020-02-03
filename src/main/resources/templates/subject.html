@@ -6,10 +6,13 @@
 </head>
 <body>
 <h1>Subject</h1>
-<div>Name: <span data-th-text="${name}"></span></div>
-<div>Description: <span data-th-text="${description}"></span></div>
-<div>Author: <span data-th-text="${author}"></span></div>
-<div>Creation Date: <span data-th-text="${creationDate}"></span></div>
+<div>Name: <span data-th-text="${subject.getName()}"></span></div>
+<div>Description: <span data-th-text="${subject.getDescription()}"></span></div>
+<div>Author:
+    <span data-th-text="${subject.getAuthor()!=null}? ${subject.getAuthor().getFullName()}:'Unknown user'"></span></div>
+<div>Creation Date:
+    <span data-th-text="${subject.getCreationDate() !=null}?${subject.getCreationDate().getTime()}:'Unknown date'"></span>
+</div>
 <br>
 <br>
 <div id="messages">
@@ -34,7 +37,7 @@
 <form data-th-action="@{/message/create}" method="post">
     <div>New message</div>
     <div><label><textarea name="text_message" rows="4" required="true"></textarea></label></div>
-    <div hidden="true"><label><input name="subjectId" required="true" data-th-value="${id}"> </label></div>
+    <div hidden="true"><label><input name="subjectId" required="true" data-th-value="${subject.getId()}"> </label></div>
     <div><input type="submit" value="Create"></div>
 </form>
 </body>
