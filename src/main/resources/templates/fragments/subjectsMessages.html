@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<body>
+<div data-th-fragment="listOfMessages(messages)">
+    <div data-th-each="message:${messages}">
+        <div>
+            <span>Author: </span>
+            <span data-th-utext="${message.getAuthor()!=null}?${message.getAuthor().getFullName()}:'Unknown user'"></span>
+        </div>
+        <div>
+            <span>Creation Date: </span>
+            <span data-th-utext="${message.getCreationDate()!=null}?${message.getCreationDate().getTime()}:'Unknown date'"></span>
+        </div>
+        <div>
+            <span>Message: </span>
+            <span data-th-utext="${message.getText()}"></span>
+        </div>
+        <br>
+    </div>
+</div>
+</body>
+</html>
