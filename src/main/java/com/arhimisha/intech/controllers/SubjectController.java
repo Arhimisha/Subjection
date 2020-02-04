@@ -39,12 +39,7 @@ public class SubjectController {
         if (subject.isEmpty() || subject.get().isDeleted()) {
             throw new RuntimeException("Subject is not found");
         }
-        //model.addObject("id", id);
         model.addObject("subject", subject.get());
-//        model.addObject("name", subject.get().getName());
-//        model.addObject("description", subject.get().getDescription());
-//        model.addObject("author", subject.get().getAuthor().getFullName());
-//        model.addObject("creationDate", subject.get().getCreationDate().getTime());
         model.addObject(
                 "messages",
                 this.messageService.loadAllBySubjectAndDeleted(
