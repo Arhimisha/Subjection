@@ -1,8 +1,8 @@
 package com.arhimisha.intech.controllers;
 
-import com.arhimisha.intech.dto.Message;
-import com.arhimisha.intech.dto.Subject;
-import com.arhimisha.intech.dto.User;
+import com.arhimisha.intech.domain.Message;
+import com.arhimisha.intech.domain.Subject;
+import com.arhimisha.intech.domain.User;
 import com.arhimisha.intech.services.MessageService;
 import com.arhimisha.intech.services.SubjectService;
 import com.arhimisha.intech.services.UserService;

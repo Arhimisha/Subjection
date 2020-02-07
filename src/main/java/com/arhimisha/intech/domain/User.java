@@ -1,4 +1,4 @@
-package com.arhimisha.intech.dto;
+package com.arhimisha.intech.domain;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

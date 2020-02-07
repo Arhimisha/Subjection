@@ -1,7 +1,7 @@
 package com.arhimisha.intech.services;
 
-import com.arhimisha.intech.dto.Authority;
-import com.arhimisha.intech.dto.User;
+import com.arhimisha.intech.domain.Authority;
+import com.arhimisha.intech.domain.User;
 import com.arhimisha.intech.registration.RegistrationDetails;
 import com.arhimisha.intech.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,6 +1,6 @@
 package com.arhimisha.intech.services;
 
-import com.arhimisha.intech.dto.Subject;
+import com.arhimisha.intech.domain.Subject;
 import com.arhimisha.intech.repository.SubjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

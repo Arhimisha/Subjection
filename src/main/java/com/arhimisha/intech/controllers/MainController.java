@@ -1,6 +1,6 @@
 package com.arhimisha.intech.controllers;
 
-import com.arhimisha.intech.dto.User;
+import com.arhimisha.intech.domain.User;
 import com.arhimisha.intech.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;

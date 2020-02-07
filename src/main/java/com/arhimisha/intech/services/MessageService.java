@@ -1,7 +1,7 @@
 package com.arhimisha.intech.services;
 
-import com.arhimisha.intech.dto.Message;
-import com.arhimisha.intech.dto.Subject;
+import com.arhimisha.intech.domain.Message;
+import com.arhimisha.intech.domain.Subject;
 import com.arhimisha.intech.repository.MessageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
