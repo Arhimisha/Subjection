@@ -76,9 +76,6 @@ public class User implements UserDetails {
         this.authorities.addAll(authorities);
     }
 
-    public User(String id) {
-    }
-
     public long getId() {
         return id;
     }
