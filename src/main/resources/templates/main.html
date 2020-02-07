@@ -1,0 +1,21 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <title>Main page</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+<h1 data-th-utext="'Hello, '+(${userFullName != null}? ${userFullName}:'friend') + '!'"/>
+<p>Click <a data-th-href="@{/login}">here</a> to log in.</p>
+<p>Click <a data-th-href="@{/registration}">here</a> to registration new user.</p>
+<br>
+<br>
+
+<form data-th-action="@{/subject/create}" method="post">
+    <div>Create new subject</div>
+    <div><label>Name<input name="name" type="text" required></label></div>
+    <div><label>Description<textarea name="description" rows="4"></textarea></label></div>
+    <div><input type="submit" value="Create"></div>
+</form>
+</body>
+</html>

@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <title>Error page</title>
+</head>
+<body>
+<h1>Error!</h1>
+<div data-th-if="error">
+    [[ ${error} ]]
+</div>
+<form th:action="@{/}" method="get">
+    <input type="submit" value="Main page"/>
+</form>
+</body>
+</html>

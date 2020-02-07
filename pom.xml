@@ -16,6 +16,9 @@
 
     <properties>
         <java.version>11</java.version>
+        <datasource.url>jdbc:postgresql://localhost:5432/intech</datasource.url>
+        <datasource.user>postgres</datasource.user>
+        <datasource.password>12345678</datasource.password>
     </properties>
 
     <dependencies>
@@ -73,6 +76,17 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+
+            <plugin>
+                <groupId>org.flywaydb</groupId>
+                <artifactId>flyway-maven-plugin</artifactId>
+                <version>6.0.8</version>
+                <configuration>
+                    <url>${datasource.url}</url>
+                    <user>${datasource.user}</user>
+                    <password>${datasource.password}</password>
+                </configuration>
             </plugin>
         </plugins>
     </build>
