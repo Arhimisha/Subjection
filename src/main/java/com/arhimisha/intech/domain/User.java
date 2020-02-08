@@ -185,4 +185,11 @@ public class User implements UserDetails {
         }
         return joiner.length() > 0 ? joiner.toString() : "User_without_name";
     }
+
+    public boolean isAdmin(){
+        if(this.authorities != null){
+            return this.authorities.stream().anyMatch("ROLE_ADMIN"::equals);
+        }
+        return false;
+    }
 }
