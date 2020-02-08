@@ -33,5 +33,8 @@ public class MessageService {
     public List<Message> loadAllBySubjectAndDeleted(Subject subject, boolean deleted, Sort sort) {
         return this.messageRepository.findAllBySubjectAndDeleted(subject, deleted, sort);
     }
+    public int softDelete(long id){
+        return this.messageRepository.softDeleteById(id);
+    }
 
 }

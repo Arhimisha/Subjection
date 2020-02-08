@@ -27,4 +27,8 @@ public class SubjectService {
 
     }
 
+    public int softDelete(long id){
+        return this.subjectRepository.softDeleteById(id);
+    }
+
 }
