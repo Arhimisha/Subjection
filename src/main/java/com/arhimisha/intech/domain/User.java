@@ -188,7 +188,7 @@ public class User implements UserDetails {
 
     public boolean isAdmin(){
         if(this.authorities != null){
-            return this.authorities.stream().anyMatch("ROLE_ADMIN"::equals);
+            return this.authorities.stream().anyMatch(a-> "ROLE_ADMIN".equals(a.getAuthority()));
         }
         return false;
     }
