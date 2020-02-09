@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
 <body>
-<div data-th-fragment="listOfMessages(messages)">
+<!--/*@thymesVar id="message" type="com.arhimisha.intech.domain.Message"*/-->
+<!--/*@thymesVar id="currentUser" type="com.arhimisha.intech.domain.User"*/-->
+<div data-th-fragment="listOfMessages(messages, currentUser)">
     <div data-th-each="message:${messages}">
         <div>
             <span>Author: </span>
@@ -15,6 +17,12 @@
             <span>Message: </span>
             <span data-th-utext="${message.getText()}"></span>
         </div>
+        <form data-th-if="${currentUser.isAdmin()} or ${currentUser.getId()} == ${message.getAuthor().getId()}"
+              data-th-action = "@{/message/soft-delete}"
+              method="post">
+            <div hidden="true"><label><input name="messageId" required="true" data-th-value="${message.getId()}"></label></div>
+            <div> <input type="submit" value="Delete Message"></div>
+        </form>
         <br>
     </div>
 </div>

@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.GregorianCalendar;
 import java.util.Optional;
@@ -56,5 +57,33 @@ public class MessageController {
         );
         messageService.save(message);
         return "redirect:/subject/"+subjectId;
+    }
+    @PostMapping("/soft-delete")
+    public ModelAndView softDelete(
+            @RequestParam(name = "messageId") long messageId,
+            @AuthenticationPrincipal UserDetails userDetails
+    ){
+        ModelAndView model = new ModelAndView();
+        Optional<Message> message = this.messageService.loadById(messageId);
+        if (message.isEmpty()){
+            model.addObject("error","This message is not existing anymore");
+            model.setViewName("error");
+            return model;
+        }
+        final Optional<User> user = this.userService.findUserByUsername(userDetails.getUsername());
+        if (user.isEmpty() || !user.get().isEnabled()) {
+            model.addObject("error","User is not enable or not exist");
+            model.setViewName("error");
+            return model;
+        }
+        if(user.get().isAdmin() || user.get().getId() == message.get().getAuthor().getId()){
+            messageService.softDelete(messageId);
+            model.setViewName(String.format("redirect:/subject/%d",message.get().getSubject().getId()));
+        }
+        else {
+            model.addObject("error", "User don't have authority for deleting message");
+            model.setViewName("error");
+        }
+        return model;
     }
 }

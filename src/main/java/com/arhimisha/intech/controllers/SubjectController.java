@@ -32,7 +32,10 @@ public class SubjectController {
     }
 
     @GetMapping(value = "/{id:^[0-9]+$}")
-    public ModelAndView getSubject(@PathVariable long id) {
+    public ModelAndView getSubject(
+            @PathVariable long id,
+            @AuthenticationPrincipal UserDetails userDetails
+    ) {
         ModelAndView model = new ModelAndView("subject");
 
         Optional<Subject> subject = this.subjectService.loadById(id);
@@ -48,6 +51,11 @@ public class SubjectController {
                         Sort.by(Sort.Direction.ASC, "creationDate")
                 )
         );
+        final Optional<User> user = this.userService.findUserByUsername(userDetails.getUsername());
+        if (user.isEmpty() || !user.get().isEnabled()) {
+            throw new RuntimeException("User " + userDetails.getUsername() + " is not exist");
+        }
+        model.addObject("currentUser", user.get());
         return model;
     }
 
