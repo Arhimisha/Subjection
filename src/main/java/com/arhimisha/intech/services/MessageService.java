@@ -4,11 +4,11 @@ import com.arhimisha.intech.domain.Message;
 import com.arhimisha.intech.domain.Subject;
 import com.arhimisha.intech.repository.MessageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -30,8 +30,8 @@ public class MessageService {
         return this.messageRepository.findById(id);
     }
 
-    public List<Message> loadAllBySubjectAndDeleted(Subject subject, boolean deleted, Sort sort) {
-        return this.messageRepository.findAllBySubjectAndDeleted(subject, deleted, sort);
+    public Page<Message> loadAllBySubjectAndDeleted(Subject subject, boolean deleted, Pageable pageable) {
+        return this.messageRepository.findAllBySubjectAndDeleted(subject, deleted, pageable);
     }
     public int softDelete(long id){
         return this.messageRepository.softDeleteById(id);

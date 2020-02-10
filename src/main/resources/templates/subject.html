@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
@@ -13,6 +13,12 @@
 <div>Creation Date:
     <span data-th-text="${subject.getCreationDate()!=null}?${subject.getCreationDate().getTime()}:'Unknown date'"></span>
 </div>
+<br>
+<br>
+<form data-th-action="@{'/subject/' + ${subject.getId()}}" method="post">
+    <div hidden="true"><label><input name="pageNumber" required="true" data-th-value="1"> </label></div>
+    <div><input type="submit" value="Get second page"></div>
+</form>
 <br>
 <br>
 <div data-th-insert="fragments/subjectsMessages::listOfMessages(messages=${messages}, currentUser=${currentUser})"></div>

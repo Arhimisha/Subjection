@@ -1,11 +1,15 @@
 package com.arhimisha.intech.controllers;
 
+import com.arhimisha.intech.domain.Message;
 import com.arhimisha.intech.domain.Subject;
 import com.arhimisha.intech.domain.User;
 import com.arhimisha.intech.services.MessageService;
 import com.arhimisha.intech.services.SubjectService;
 import com.arhimisha.intech.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -31,32 +35,53 @@ public class SubjectController {
         this.messageService = messageService;
     }
 
-    @GetMapping(value = "/{id:^[0-9]+$}")
-    public ModelAndView getSubject(
-            @PathVariable long id,
-            @AuthenticationPrincipal UserDetails userDetails
-    ) {
-        ModelAndView model = new ModelAndView("subject");
+    private ModelAndView getSubjectAndMessagesPage(
+            long subjectId,
+            int pageNumber,
+            UserDetails userDetails
+    ){
+        final ModelAndView model = new ModelAndView("subject");
 
-        Optional<Subject> subject = this.subjectService.loadById(id);
+        final Optional<Subject> subject = this.subjectService.loadById(subjectId);
         if (subject.isEmpty() || subject.get().isDeleted()) {
             throw new RuntimeException("Subject is not found");
         }
         model.addObject("subject", subject.get());
-        model.addObject(
-                "messages",
-                this.messageService.loadAllBySubjectAndDeleted(
-                        subject.get(),
-                        false,
-                        Sort.by(Sort.Direction.ASC, "creationDate")
-                )
-        );
+
+        final Pageable pageable = PageRequest.of(pageNumber, 10, Sort.by("creationDate").ascending());
+        final Page<Message> messagesPage = this.messageService
+                .loadAllBySubjectAndDeleted(subject.get(), false, pageable);
+        if(0 > pageNumber || messagesPage.getTotalPages() <= pageNumber){
+            model.addObject("error", String.format("Page number %d is not exist",pageNumber));
+            model.setViewName("error");
+            return model;
+        }
+        model.addObject("messages", messagesPage.getContent());
+        model.addObject("pagesCount", messagesPage.getTotalPages());
+
         final Optional<User> user = this.userService.findUserByUsername(userDetails.getUsername());
         if (user.isEmpty() || !user.get().isEnabled()) {
             throw new RuntimeException("User " + userDetails.getUsername() + " is not exist");
         }
         model.addObject("currentUser", user.get());
         return model;
+    }
+
+    @GetMapping(value = "/{id:^[0-9]+$}")
+    public ModelAndView getSubjectAndFirstMessagesPage(
+            @PathVariable long id,
+            @AuthenticationPrincipal UserDetails userDetails
+    ) {
+        return this.getSubjectAndMessagesPage(id,0,userDetails);
+    }
+
+    @PostMapping(value = "/{id:^[0-9]+$}")
+    public ModelAndView getSubjectAndIndicatedMessagesPage(
+            @PathVariable long id,
+            @RequestParam(name = "pageNumber") int pageNumber,
+            @AuthenticationPrincipal UserDetails userDetails
+    ){
+        return this.getSubjectAndMessagesPage(id, pageNumber, userDetails);
     }
 
     @PostMapping(value = "/create")
