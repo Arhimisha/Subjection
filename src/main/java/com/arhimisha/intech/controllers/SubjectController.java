@@ -35,14 +35,15 @@ public class SubjectController {
         this.messageService = messageService;
     }
 
-    private ModelAndView getSubjectAndMessagesPage(
-            long subjectId,
-            int pageNumber,
-            UserDetails userDetails
-    ){
+    @GetMapping(value = "/{id:^[0-9]+$}")
+    public ModelAndView getSubjectAndFirstMessagesPage(
+            @PathVariable long id,
+            @RequestParam(name = "pageNumber", defaultValue = "0") int pageNumber,
+            @AuthenticationPrincipal UserDetails userDetails
+    ) {
         final ModelAndView model = new ModelAndView("subject");
 
-        final Optional<Subject> subject = this.subjectService.loadById(subjectId);
+        final Optional<Subject> subject = this.subjectService.loadById(id);
         if (subject.isEmpty() || subject.get().isDeleted()) {
             throw new RuntimeException("Subject is not found");
         }
@@ -51,13 +52,14 @@ public class SubjectController {
         final Pageable pageable = PageRequest.of(pageNumber, 10, Sort.by("creationDate").ascending());
         final Page<Message> messagesPage = this.messageService
                 .loadAllBySubjectAndDeleted(subject.get(), false, pageable);
-        if(0 > pageNumber || messagesPage.getTotalPages() <= pageNumber){
-            model.addObject("error", String.format("Page number %d is not exist",pageNumber));
+        if (0 > pageNumber || (pageNumber!=0 && pageNumber >= messagesPage.getTotalPages())) {
+            model.addObject("error", String.format("Page number %d is not exist", pageNumber));
             model.setViewName("error");
             return model;
         }
         model.addObject("messages", messagesPage.getContent());
-        model.addObject("pagesCount", messagesPage.getTotalPages());
+        model.addObject("currentPage", pageNumber);
+        model.addObject("totalPages", messagesPage.getTotalPages());
 
         final Optional<User> user = this.userService.findUserByUsername(userDetails.getUsername());
         if (user.isEmpty() || !user.get().isEnabled()) {
@@ -65,23 +67,6 @@ public class SubjectController {
         }
         model.addObject("currentUser", user.get());
         return model;
-    }
-
-    @GetMapping(value = "/{id:^[0-9]+$}")
-    public ModelAndView getSubjectAndFirstMessagesPage(
-            @PathVariable long id,
-            @AuthenticationPrincipal UserDetails userDetails
-    ) {
-        return this.getSubjectAndMessagesPage(id,0,userDetails);
-    }
-
-    @PostMapping(value = "/{id:^[0-9]+$}")
-    public ModelAndView getSubjectAndIndicatedMessagesPage(
-            @PathVariable long id,
-            @RequestParam(name = "pageNumber") int pageNumber,
-            @AuthenticationPrincipal UserDetails userDetails
-    ){
-        return this.getSubjectAndMessagesPage(id, pageNumber, userDetails);
     }
 
     @PostMapping(value = "/create")
