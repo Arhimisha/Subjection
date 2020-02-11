@@ -22,7 +22,7 @@
 </div>
 <br>
 <br>
-<div data-th-insert="~{fragments/paginator::paginator(label='Page navigation for messages',currentPage=${currentPage}, totalPages=${totalPages})}"></div>
+<div data-th-insert="~{fragments/pageNavigator::navigator(label='Page navigation for messages',currentPage=${currentPage}, totalPages=${totalPages})}"></div>
 <br>
 <br>
 <div data-th-insert="fragments/subjectsMessages::listOfMessages(messages=${messages}, currentUser=${currentUser})"></div>
