@@ -27,6 +27,7 @@ public class SubjectController {
     private final SubjectService subjectService;
     private final UserService userService;
     private final MessageService messageService;
+    private final int PAGE_SIZE = 10;
 
     @Autowired
     public SubjectController(SubjectService subjectService, UserService userService, MessageService messageService) {
@@ -35,10 +36,14 @@ public class SubjectController {
         this.messageService = messageService;
     }
 
+    /**
+     * If lastPage == true, it does not matter what is pageNumber
+     */
     @GetMapping(value = "/{id:^[0-9]+$}")
-    public ModelAndView getSubjectAndFirstMessagesPage(
+    public ModelAndView getSubject(
             @PathVariable long id,
             @RequestParam(name = "pageNumber", defaultValue = "0") int pageNumber,
+            @RequestParam(name = "lastPage", defaultValue = "false") boolean lastPage,
             @AuthenticationPrincipal UserDetails userDetails
     ) {
         final ModelAndView model = new ModelAndView("subject");
@@ -49,7 +54,11 @@ public class SubjectController {
         }
         model.addObject("subject", subject.get());
 
-        final Pageable pageable = PageRequest.of(pageNumber, 10, Sort.by("creationDate").ascending());
+        if(lastPage){
+            final long totalMessages = this.messageService.countAllBySubjectAndDeleted(subject.get(), false);
+            pageNumber= (int)(totalMessages-1)/this.PAGE_SIZE;
+        }
+        final Pageable pageable = PageRequest.of(pageNumber, this.PAGE_SIZE, Sort.by("creationDate").ascending());
         final Page<Message> messagesPage = this.messageService
                 .loadAllBySubjectAndDeleted(subject.get(), false, pageable);
         if (0 > pageNumber || (pageNumber!=0 && pageNumber >= messagesPage.getTotalPages())) {

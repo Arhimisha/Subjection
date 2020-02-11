@@ -10,4 +10,6 @@ import org.springframework.stereotype.Repository;
 public interface MessageRepository extends EntityWithSoftDeletingRepository<Message, Long> {
 
     Page<Message> findAllBySubjectAndDeleted(Subject subject, boolean deleted, Pageable pageable);
+
+    long countAllBySubjectAndDeleted(Subject subject, boolean deleted);
 }

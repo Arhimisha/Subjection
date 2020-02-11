@@ -56,7 +56,7 @@ public class MessageController {
             false
         );
         messageService.save(message);
-        return "redirect:/subject/"+subjectId;
+        return String.format("redirect:/subject/%d?lastPage=true", subjectId);
     }
     @PostMapping("/soft-delete")
     public ModelAndView softDelete(

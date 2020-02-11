@@ -33,8 +33,13 @@ public class MessageService {
     public Page<Message> loadAllBySubjectAndDeleted(Subject subject, boolean deleted, Pageable pageable) {
         return this.messageRepository.findAllBySubjectAndDeleted(subject, deleted, pageable);
     }
-    public int softDelete(long id){
+
+    public int softDelete(long id) {
         return this.messageRepository.softDeleteById(id);
+    }
+
+    public long countAllBySubjectAndDeleted(Subject subject, boolean deleted) {
+        return this.messageRepository.countAllBySubjectAndDeleted(subject, deleted);
     }
 
 }
