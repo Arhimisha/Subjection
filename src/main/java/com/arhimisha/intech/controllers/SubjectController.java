@@ -105,4 +105,24 @@ public class SubjectController extends BaseController {
         subject = this.subjectService.save(subject);
         return "redirect:/subject/" + subject.getId();
     }
+
+    @PostMapping("/soft-delete")
+    public ModelAndView softDelete(
+            @RequestParam(name = "subjectId") long subjectId,
+            @AuthenticationPrincipal UserDetails userDetails
+    ){
+        final Optional<Subject> subject = this.subjectService.loadById(subjectId);
+        if (subject.isEmpty()){
+            return this.getErrorPage("This subjectId is not existing anymore");
+        }
+        final Optional<User> user = this.userService.findUserByUsername(userDetails.getUsername());
+        if (user.isEmpty() || !user.get().isEnabled()) {
+            return this.getErrorPage("Current User is not enable or not exist");
+        }
+        if(!user.get().isAdmin() || subject.get().getAuthor() == null || user.get().getId() != subject.get().getAuthor().getId()){
+            return this.getErrorPage("User don't have authority for deleting message");
+        }
+        this.subjectService.softDelete(subjectId);
+        return new ModelAndView(String.format("redirect:/"));
+    }
 }
