@@ -29,10 +29,12 @@
 <br>
 <br>
 <form data-th-action="@{/message/create}" method="post">
-    <div>New message</div>
-    <div><label><textarea name="text_message" rows="4" required="true"></textarea></label></div>
-    <div hidden="true"><label><input name="subjectId" required="true" data-th-value="${subject.getId()}"> </label></div>
-    <div><input type="submit" value="Create"></div>
+    <div class="form-group">
+        <label for="inputTextMessage"></label>
+        <textarea class="form-control" id="inputTextMessage" name="text_message" rows="4" required="true"></textarea>
+    </div>
+    <div hidden="true"><label><input name="subjectId" required="true" data-th-value="${subject.getId()}"></label></div>
+    <button type="submit" class="btn btn-primary">Create new message</button>
 </form>
 
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
