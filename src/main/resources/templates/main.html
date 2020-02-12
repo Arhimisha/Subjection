@@ -18,6 +18,12 @@
 <p>Click <a data-th-href="@{/registration}">here</a> to registration new user.</p>
 <br>
 <br>
+<div data-th-insert="~{fragments/pageNavigator::navigator(label='Page navigation for subject',currentPage=${currentPage}, totalPages=${totalPages})}"></div>
+<br>
+<br>
+<div data-th-insert="fragments/subjects::listOfSubjects(subjects=${subjects}, currentUser=${currentUser})"></div>
+<br>
+<br>
 
 <form data-th-action="@{/subject/create}" method="post">
     <div>Create new subject</div>

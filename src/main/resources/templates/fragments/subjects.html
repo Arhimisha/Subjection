@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<body>
+<!--/*@thymesVar id="subject" type="com.arhimisha.intech.domain.Subject"*/-->
+<!--/*@thymesVar id="currentUser" type="com.arhimisha.intech.domain.User"*/-->
+<div data-th-fragment="listOfSubjects(subjects, currentUser)">
+    <div data-th-each="subject:${subjects}">
+        <div>
+            <span>Name:</span>
+            <a data-th-href="'/subject/' + ${subject.getId()}" data-th-utext="${subject.getName()}"></a>
+        </div>
+        <div>
+            <span>Description: </span>
+            <span data-th-utext="${subject.getDescription()}"></span>
+        </div>
+        <div>
+            <span>Author: </span>
+            <span data-th-utext="${subject.getAuthor()!=null}?${subject.getAuthor().getFullName()}:'Unknown user'"></span>
+        </div>
+        <div>
+            <span>Creation Date: </span>
+            <span data-th-utext="${subject.getCreationDate()!=null}?${subject.getCreationDate().getTime()}:'Unknown date'"></span>
+        </div>
+        <form data-th-if="${currentUser} and (${currentUser.isAdmin()} or ${currentUser.getId()} == ${subject.getAuthor().getId()})"
+              data-th-action = "@{/subject/soft-delete}"
+              method="post">
+            <div hidden="true"><label><input name="subjectId" required="true" data-th-value="${subject.getId()}"></label></div>
+            <div> <input type="submit" value="Delete Subject"></div>
+        </form>
+        <br>
+    </div>
+</div>
+</body>
+</html>
