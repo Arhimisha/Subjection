@@ -3,6 +3,8 @@ package com.arhimisha.intech.services;
 import com.arhimisha.intech.domain.Subject;
 import com.arhimisha.intech.repository.SubjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -31,4 +33,11 @@ public class SubjectService {
         return this.subjectRepository.softDeleteById(id);
     }
 
+    public Page<Subject> getAllSortedByMessagesCreationDate(Pageable pageable){
+        return this.subjectRepository.getAllSortedByMessagesCreationDate(pageable);
+    }
+
+    public long countAllByDeleted(boolean deleted){
+        return this.subjectRepository.countAllByDeleted(deleted);
+    }
 }
