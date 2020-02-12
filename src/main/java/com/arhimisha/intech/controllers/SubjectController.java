@@ -54,9 +54,9 @@ public class SubjectController extends BaseController {
         }
         model.addObject("subject", subject.get());
 
-        if(lastPage){
+        if (lastPage) {
             final long totalMessages = this.messageService.countAllBySubjectAndDeleted(subject.get(), false);
-            pageNumber= (int)(totalMessages-1)/this.PAGE_SIZE;
+            pageNumber = (int) (totalMessages - 1) / this.PAGE_SIZE;
         }
         if (pageNumber < 0) {
             return this.getErrorPage(String.format("Page number %d is not exist", pageNumber));
