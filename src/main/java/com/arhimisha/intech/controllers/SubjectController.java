@@ -22,7 +22,7 @@ import java.util.Optional;
 
 @Controller
 @RequestMapping(value = "/subject")
-public class SubjectController {
+public class SubjectController extends BaseController {
 
     private final SubjectService subjectService;
     private final UserService userService;
@@ -58,13 +58,15 @@ public class SubjectController {
             final long totalMessages = this.messageService.countAllBySubjectAndDeleted(subject.get(), false);
             pageNumber= (int)(totalMessages-1)/this.PAGE_SIZE;
         }
+        if (pageNumber < 0) {
+            return this.getErrorPage(String.format("Page number %d is not exist", pageNumber));
+        }
+
         final Pageable pageable = PageRequest.of(pageNumber, this.PAGE_SIZE, Sort.by("creationDate").ascending());
         final Page<Message> messagesPage = this.messageService
                 .loadAllBySubjectAndDeleted(subject.get(), false, pageable);
-        if (0 > pageNumber || (pageNumber!=0 && pageNumber >= messagesPage.getTotalPages())) {
-            model.addObject("error", String.format("Page number %d is not exist", pageNumber));
-            model.setViewName("error");
-            return model;
+        if (pageNumber != 0 && pageNumber > (messagesPage.getTotalPages()-1)) {
+            return this.getErrorPage(String.format("Page number %d is not exist", pageNumber));
         }
         model.addObject("messages", messagesPage.getContent());
         model.addObject("currentPage", pageNumber);

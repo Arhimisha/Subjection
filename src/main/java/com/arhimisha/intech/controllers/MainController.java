@@ -12,7 +12,7 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.Optional;
 
 @Controller
-public class MainController {
+public class MainController extends  BaseController {
 
     private final UserService userService;
 

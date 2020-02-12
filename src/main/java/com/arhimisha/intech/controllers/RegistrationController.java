@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/registration")
-public class RegistrationController {
+public class RegistrationController extends BaseController {
 
     private final UserService userService;
 

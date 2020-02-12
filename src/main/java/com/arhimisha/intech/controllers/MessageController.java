@@ -20,7 +20,7 @@ import java.util.Optional;
 
 @Controller
 @RequestMapping(value = "/message")
-public class MessageController {
+public class MessageController extends BaseController {
 
     private final UserService userService;
     private final SubjectService subjectService;
@@ -63,27 +63,18 @@ public class MessageController {
             @RequestParam(name = "messageId") long messageId,
             @AuthenticationPrincipal UserDetails userDetails
     ){
-        ModelAndView model = new ModelAndView();
-        Optional<Message> message = this.messageService.loadById(messageId);
+        final Optional<Message> message = this.messageService.loadById(messageId);
         if (message.isEmpty()){
-            model.addObject("error","This message is not existing anymore");
-            model.setViewName("error");
-            return model;
+            return this.getErrorPage("This message is not existing anymore");
         }
         final Optional<User> user = this.userService.findUserByUsername(userDetails.getUsername());
         if (user.isEmpty() || !user.get().isEnabled()) {
-            model.addObject("error","User is not enable or not exist");
-            model.setViewName("error");
-            return model;
+            return this.getErrorPage("Current User is not enable or not exist");
         }
-        if(user.get().isAdmin() || user.get().getId() == message.get().getAuthor().getId()){
-            messageService.softDelete(messageId);
-            model.setViewName(String.format("redirect:/subject/%d",message.get().getSubject().getId()));
+        if(!user.get().isAdmin() || message.get().getAuthor() == null || user.get().getId() != message.get().getAuthor().getId()){
+            return this.getErrorPage("User don't have authority for deleting message");
         }
-        else {
-            model.addObject("error", "User don't have authority for deleting message");
-            model.setViewName("error");
-        }
-        return model;
+        this.messageService.softDelete(messageId);
+        return new ModelAndView(String.format("redirect:/subject/%d",message.get().getSubject().getId()));
     }
 }
