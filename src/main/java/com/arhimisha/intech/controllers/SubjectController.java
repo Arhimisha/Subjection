@@ -110,7 +110,7 @@ public class SubjectController extends BaseController {
     public ModelAndView softDelete(
             @RequestParam(name = "subjectId") long subjectId,
             @AuthenticationPrincipal UserDetails userDetails
-    ){
+    ) {
         final Optional<Subject> subject = this.subjectService.loadById(subjectId);
         if (subject.isEmpty()) {
             return this.getErrorPage(userDetails, "This subjectId is not existing anymore");

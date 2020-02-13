@@ -40,7 +40,7 @@ public class MessageController extends BaseController {
             @AuthenticationPrincipal UserDetails userDetails
     ) {
         final Optional<User> user = this.userService.findUserByUsername(userDetails.getUsername());
-        if(user.isEmpty() || !user.get().isEnabled()){
+        if (user.isEmpty() || !user.get().isEnabled()) {
             throw new RuntimeException("User " + userDetails.getUsername() + " is not exist");
         }
         final Optional<Subject> subject = this.subjectService.loadById(subjectId);
@@ -48,21 +48,22 @@ public class MessageController extends BaseController {
             throw new RuntimeException("Subject is not found");
         }
         Message message = new Message(
-            0L,
-            text,
-            subject.get(),
-            user.get(),
-            new GregorianCalendar(),
-            false
+                0L,
+                text,
+                subject.get(),
+                user.get(),
+                new GregorianCalendar(),
+                false
         );
         messageService.save(message);
         return String.format("redirect:/subject/%d?lastPage=true", subjectId);
     }
+
     @PostMapping("/soft-delete")
     public ModelAndView softDelete(
             @RequestParam(name = "messageId") long messageId,
             @AuthenticationPrincipal UserDetails userDetails
-    ){
+    ) {
         final Optional<Message> message = this.messageService.loadById(messageId);
         if (message.isEmpty()) {
             return this.getErrorPage(userDetails, "This message is not existing anymore");
@@ -75,6 +76,6 @@ public class MessageController extends BaseController {
             return this.getErrorPage(userDetails, "User don't have authority for deleting message");
         }
         this.messageService.softDelete(messageId);
-        return new ModelAndView(String.format("redirect:/subject/%d",message.get().getSubject().getId()));
+        return new ModelAndView(String.format("redirect:/subject/%d", message.get().getSubject().getId()));
     }
 }
