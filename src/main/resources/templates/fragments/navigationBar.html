@@ -1,40 +1,42 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
 <body>
-<nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4" data-th-fragment="bar(currentUser)">
-    <div class="navbar-brand">Subjection</div>
-    <div class="collapse navbar-collapse" id="navbarCollapse">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-                <a class="nav-link" href="/">Home<span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item">
-                <a data-th-class="${currentUser}==null?'nav-link':'nav-link disabled'"
-                   data-th-tabindex="${currentUser}!=null?'-1':_"
-                   data-th-attr="aria-disabled=(${currentUser}!=null?'true':_)"
-                   href="/registration">Register</a>
-            </li>
-            <li class="nav-item">
-                <a data-th-class="${currentUser}==null?'nav-link':'nav-link disabled'"
-                   data-th-tabindex="${currentUser}!=null?'-1':_"
-                   data-th-attr="aria-disabled=(${currentUser}!=null?'true':_)"
-                   href="/login">Log in</a>
-            </li>
-            <li class="nav-item">
-                <form class="form-inline" id="logout" data-th-action="@{/logout}" method="post">
-                    <a data-th-class="${currentUser}!=null?'nav-link':'nav-link disabled'"
-                       data-th-tabindex="${currentUser}==null?'-1':_"
-                       data-th-attr="aria-disabled=(${currentUser}==null?'true':_)"
-                       href="#"
-                       onclick="this.parentNode.submit()">Log out</a>
-                </form>
-            </li>
-        </ul>
-        <form class="form-inline mt-2 mt-md-0">
-            <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-        </form>
-    </div>
-</nav>
+<header class="masthead mb-auto" data-th-fragment="bar(currentUser, search)">
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4" >
+        <div class="navbar-brand">Subjection</div>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/">Home<span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a data-th-class="${currentUser}==null?'nav-link':'nav-link disabled'"
+                       data-th-tabindex="${currentUser}!=null?'-1':_"
+                       data-th-attr="aria-disabled=(${currentUser}!=null?'true':_)"
+                       href="/registration">Register</a>
+                </li>
+                <li class="nav-item">
+                    <a data-th-class="${currentUser}==null?'nav-link':'nav-link disabled'"
+                       data-th-tabindex="${currentUser}!=null?'-1':_"
+                       data-th-attr="aria-disabled=(${currentUser}!=null?'true':_)"
+                       href="/login">Log in</a>
+                </li>
+                <li class="nav-item">
+                    <form class="form-inline" id="logout" data-th-action="@{/logout}" method="post">
+                        <a data-th-class="${currentUser}!=null?'nav-link':'nav-link disabled'"
+                           data-th-tabindex="${currentUser}==null?'-1':_"
+                           data-th-attr="aria-disabled=(${currentUser}==null?'true':_)"
+                           href="#"
+                           onclick="this.parentNode.submit()">Log out</a>
+                    </form>
+                </li>
+            </ul>
+            <form data-th-if="${search}=='subject' or ${search}=='message'" class="form-inline mt-2 mt-md-0">
+                <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            </form>
+        </div>
+    </nav>
+</header>
 </body>
 </html>
