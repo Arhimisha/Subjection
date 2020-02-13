@@ -64,15 +64,15 @@ public class MessageController extends BaseController {
             @AuthenticationPrincipal UserDetails userDetails
     ){
         final Optional<Message> message = this.messageService.loadById(messageId);
-        if (message.isEmpty()){
-            return this.getErrorPage("This message is not existing anymore");
+        if (message.isEmpty()) {
+            return this.getErrorPage(userDetails, "This message is not existing anymore");
         }
         final Optional<User> user = this.userService.findUserByUsername(userDetails.getUsername());
         if (user.isEmpty() || !user.get().isEnabled()) {
-            return this.getErrorPage("Current User is not enable or not exist");
+            return this.getErrorPage(userDetails, "Current User is not enable or not exist");
         }
-        if(!user.get().isAdmin() || message.get().getAuthor() == null || user.get().getId() != message.get().getAuthor().getId()){
-            return this.getErrorPage("User don't have authority for deleting message");
+        if (!user.get().isAdmin() || message.get().getAuthor() == null || user.get().getId() != message.get().getAuthor().getId()) {
+            return this.getErrorPage(userDetails, "User don't have authority for deleting message");
         }
         this.messageService.softDelete(messageId);
         return new ModelAndView(String.format("redirect:/subject/%d",message.get().getSubject().getId()));

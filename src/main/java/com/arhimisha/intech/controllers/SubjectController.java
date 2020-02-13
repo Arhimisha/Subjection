@@ -59,14 +59,14 @@ public class SubjectController extends BaseController {
             pageNumber = (int) (totalMessages - 1) / this.PAGE_SIZE;
         }
         if (pageNumber < 0) {
-            return this.getErrorPage(String.format("Page number %d is not exist", pageNumber));
+            return this.getErrorPage(userDetails, String.format("Page number %d is not exist", pageNumber));
         }
 
         final Pageable pageable = PageRequest.of(pageNumber, this.PAGE_SIZE, Sort.by("creationDate").ascending());
         final Page<Message> messagesPage = this.messageService
                 .loadAllBySubjectAndDeleted(subject.get(), false, pageable);
-        if (pageNumber != 0 && pageNumber > (messagesPage.getTotalPages()-1)) {
-            return this.getErrorPage(String.format("Page number %d is not exist", pageNumber));
+        if (pageNumber != 0 && pageNumber > (messagesPage.getTotalPages() - 1)) {
+            return this.getErrorPage(userDetails, String.format("Page number %d is not exist", pageNumber));
         }
         model.addObject("messages", messagesPage.getContent());
         model.addObject("currentPage", pageNumber);
@@ -112,15 +112,15 @@ public class SubjectController extends BaseController {
             @AuthenticationPrincipal UserDetails userDetails
     ){
         final Optional<Subject> subject = this.subjectService.loadById(subjectId);
-        if (subject.isEmpty()){
-            return this.getErrorPage("This subjectId is not existing anymore");
+        if (subject.isEmpty()) {
+            return this.getErrorPage(userDetails, "This subjectId is not existing anymore");
         }
         final Optional<User> user = this.userService.findUserByUsername(userDetails.getUsername());
         if (user.isEmpty() || !user.get().isEnabled()) {
-            return this.getErrorPage("Current User is not enable or not exist");
+            return this.getErrorPage(userDetails, "Current User is not enable or not exist");
         }
-        if(!user.get().isAdmin() || subject.get().getAuthor() == null || user.get().getId() != subject.get().getAuthor().getId()){
-            return this.getErrorPage("User don't have authority for deleting message");
+        if (!user.get().isAdmin() || subject.get().getAuthor() == null || user.get().getId() != subject.get().getAuthor().getId()) {
+            return this.getErrorPage(userDetails, "User don't have authority for deleting message");
         }
         this.subjectService.softDelete(subjectId);
         return new ModelAndView(String.format("redirect:/"));
