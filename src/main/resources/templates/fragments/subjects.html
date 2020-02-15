@@ -3,31 +3,44 @@
 <body>
 <!--/*@thymesVar id="subject" type="com.arhimisha.intech.domain.Subject"*/-->
 <!--/*@thymesVar id="currentUser" type="com.arhimisha.intech.domain.User"*/-->
-<div data-th-fragment="listOfSubjects(subjects, currentUser)">
+<div class="justify-content-md-center" data-th-fragment="listOfSubjects(subjects, currentUser)">
     <div data-th-each="subject:${subjects}">
-        <div>
-            <span>Name:</span>
-            <a data-th-href="'/subject/' + ${subject.getId()}" data-th-utext="${subject.getName()}"></a>
+        <div class="card border-dark mb-5 text-center">
+            <div class="card-header">
+                <h3 class="card-title"><a class="text-primary" data-th-href="'/subject/' + ${subject.getId()}"
+                                          data-th-utext="${subject.getName()}"></a></h3>
+                <h6 class="card-subtitle text-muted">
+                    <span data-th-text="${subject.getAuthor()!=null}?${subject.getAuthor().getFullName()}:'<Unknown user>'"></span>
+                    <span> (</span>
+                    <span data-th-text="${subject.getCreationDate()!=null}?${#dates.format(subject.getCreationDate().getTime(),'dd-MM-yyyy hh:mm:ss')}:'<Unknown date>'"></span>
+                    <span>)</span>
+                </h6>
+            </div>
+            <div>
+                <h5 class="font-italic mt-5 mb-5"
+                    data-th-text="${subject.getDescription().trim().length()!=0}?${subject.getDescription()}:'<Without description>'"></h5>
+            </div>
+            <div class="card-footer text-muted">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <span class="align-middle">Last update: </span>
+                        <span class="align-middle">In development</span>
+                    </div>
+                    <div data-th-if="${currentUser} and (${currentUser.isAdmin()} or ${currentUser.getId()} == ${subject.getAuthor().getId()})">
+                        <form id="deleteSubject"
+                              data-th-action="@{/subject/soft-delete}"
+                              method="post">
+                            <div hidden="true">
+                                <label>
+                                    <input name="subjectId" required="true" data-th-value="${subject.getId()}">
+                                </label>
+                            </div>
+                        </form>
+                        <button form="deleteSubject" type="button" class="btn btn btn-danger">Delete</button>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div>
-            <span>Description: </span>
-            <span data-th-utext="${subject.getDescription()}"></span>
-        </div>
-        <div>
-            <span>Author: </span>
-            <span data-th-utext="${subject.getAuthor()!=null}?${subject.getAuthor().getFullName()}:'Unknown user'"></span>
-        </div>
-        <div>
-            <span>Creation Date: </span>
-            <span data-th-utext="${subject.getCreationDate()!=null}?${subject.getCreationDate().getTime()}:'Unknown date'"></span>
-        </div>
-        <form data-th-if="${currentUser} and (${currentUser.isAdmin()} or ${currentUser.getId()} == ${subject.getAuthor().getId()})"
-              data-th-action = "@{/subject/soft-delete}"
-              method="post">
-            <div hidden="true"><label><input name="subjectId" required="true" data-th-value="${subject.getId()}"></label></div>
-            <div> <input type="submit" value="Delete Subject"></div>
-        </form>
-        <br>
     </div>
 </div>
 </body>
