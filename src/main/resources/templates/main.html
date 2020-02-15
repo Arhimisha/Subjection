@@ -63,10 +63,10 @@
 
         <br>
         <br>
-        <div data-th-insert="~{fragments/pageNavigator::navigator(label='Page navigation for subject',currentPage=${currentPage}, totalPages=${totalPages})}"></div>
+        <div data-th-replace="~{fragments/pageNavigator::navigator(label='Page navigation for subject',currentPage=${currentPage}, totalPages=${totalPages})}"></div>
         <br>
         <br>
-        <div data-th-insert="~{fragments/subjects::listOfSubjects(subjects=${subjects}, currentUser=${currentUser})}"></div>
+        <div data-th-replace="~{fragments/subjects::listOfSubjects(subjects=${subjects}, currentUser=${currentUser})}"></div>
         <br>
         <br>
     </main>
