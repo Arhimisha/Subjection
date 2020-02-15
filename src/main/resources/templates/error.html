@@ -16,7 +16,7 @@
 <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
     <div data-th-replace="~{fragments/navigationBar::bar(currentUser=((${currentUser} != null)?${currentUser}:'none'), search='none')}"></div>
 
-    <main role="main" class="inner cover">
+    <main role="main" class="inner cover container">
         <h1>Error!</h1>
         <div data-th-if="error">
             <p>[[ ${error} ]]</p>

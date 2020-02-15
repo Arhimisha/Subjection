@@ -16,7 +16,7 @@
 <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
     <div data-th-replace="~{fragments/navigationBar::bar(currentUser=${currentUser}, search='none')}"></div>
 
-    <main role="main" class="inner cover">
+    <main role="main" class="inner cover container">
         <form data-th-action="@{/login}" method="post">
             <div><label> Login: <input type="text" name="username"/> </label></div>
             <div><label> Password: <input type="password" name="password"/> </label></div>

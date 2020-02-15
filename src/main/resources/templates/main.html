@@ -16,7 +16,7 @@
 <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
     <div data-th-replace="~{fragments/navigationBar::bar(currentUser=${currentUser}, search='subject')}"></div>
 
-    <main role="main" class="inner cover">
+    <main role="main" class="inner cover container">
         <h1 data-th-utext="'Hello, '+(${userFullName != null}? ${userFullName}:'friend') + '!'"/>
         <br>
         <br>

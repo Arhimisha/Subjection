@@ -16,7 +16,7 @@
 <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
     <div data-th-replace="~{fragments/navigationBar::bar(currentUser=${currentUser}, search='message')}"></div>
 
-    <main role="main" class="inner cover">
+    <main role="main" class="inner cover container">
         <h1>Subject</h1>
         <div>Name: <span data-th-text="${subject.getName()}"></span></div>
         <div>Description: <span data-th-text="${subject.getDescription()}"></span></div>
