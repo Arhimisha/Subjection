@@ -7,12 +7,15 @@
     <div data-th-each="subject:${subjects}">
         <div class="card border-dark mt-4 mb-4 text-center">
             <div class="card-header">
-                <h3 class="card-title"><a class="text-primary" data-th-href="'/subject/' + ${subject.getId()}"
-                                          data-th-utext="${subject.getName()}"></a></h3>
+                <h3 class="card-title">
+                    <a class="text-primary"
+                       data-th-href="'/subject/' + ${subject.getId()}"
+                       data-th-text="${subject.getName()}"></a>
+                </h3>
                 <h6 class="card-subtitle text-muted">
                     <span data-th-text="${subject.getAuthor()!=null}?${subject.getAuthor().getFullName()}:'<Unknown user>'"></span>
                     <span> (</span>
-                    <span data-th-text="${subject.getCreationDate()!=null}?${#dates.format(subject.getCreationDate().getTime(),'dd-MM-yyyy hh:mm:ss')}:'<Unknown date>'"></span>
+                    <span data-th-text="${subject.getCreationDate()!=null}?${#dates.format(subject.getCreationDate().getTime(),'hh:mm:ss dd-MM-yyyy')}:'<Unknown date>'"></span>
                     <span>)</span>
                 </h6>
             </div>
