@@ -5,7 +5,7 @@
 <!--/*@thymesVar id="currentUser" type="com.arhimisha.intech.domain.User"*/-->
 <div class="justify-content-md-center" data-th-fragment="listOfSubjects(subjects, currentUser)">
     <div data-th-each="subject:${subjects}">
-        <div class="card border-dark mb-5 text-center">
+        <div class="card border-dark mt-4 mb-4 text-center">
             <div class="card-header">
                 <h3 class="card-title"><a class="text-primary" data-th-href="'/subject/' + ${subject.getId()}"
                                           data-th-utext="${subject.getName()}"></a></h3>
@@ -18,6 +18,7 @@
             </div>
             <div>
                 <h5 class="font-italic mt-5 mb-5"
+                    style="white-space: pre-wrap"
                     data-th-text="${subject.getDescription().trim().length()!=0}?${subject.getDescription()}:'<Without description>'"></h5>
             </div>
             <div class="card-footer text-muted">
@@ -30,13 +31,9 @@
                         <form id="deleteSubject"
                               data-th-action="@{/subject/soft-delete}"
                               method="post">
-                            <div hidden="true">
-                                <label>
-                                    <input name="subjectId" required="true" data-th-value="${subject.getId()}">
-                                </label>
-                            </div>
+                            <input type="hidden" name="subjectId" required="true" data-th-value="${subject.getId()}">
                         </form>
-                        <button form="deleteSubject" type="button" class="btn btn btn-danger">Delete</button>
+                        <button form="deleteSubject" type="submit" class="btn btn btn-danger">Delete</button>
                     </div>
                 </div>
             </div>
