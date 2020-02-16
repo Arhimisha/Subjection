@@ -59,8 +59,9 @@
             </div>
         </div>
 
-        <div data-th-replace="~{fragments/pageNavigator::navigator(label='Page navigation for subject',currentPage=${currentPage}, totalPages=${totalPages})}"></div>
+        <div data-th-replace="~{fragments/pageNavigator::navigator(label='Page navigation for subject top',currentPage=${currentPage}, totalPages=${totalPages})}"></div>
         <div data-th-replace="~{fragments/subjects::listOfSubjects(subjects=${subjects}, currentUser=${currentUser})}"></div>
+        <div data-th-replace="~{fragments/pageNavigator::navigator(label='Page navigation for subject bottom',currentPage=${currentPage}, totalPages=${totalPages})}"></div>
     </main>
 
     <div data-th-replace="~{fragments/footer::footer}"></div>
