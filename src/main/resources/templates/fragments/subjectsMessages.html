@@ -3,27 +3,39 @@
 <body>
 <!--/*@thymesVar id="message" type="com.arhimisha.intech.domain.Message"*/-->
 <!--/*@thymesVar id="currentUser" type="com.arhimisha.intech.domain.User"*/-->
-<div data-th-fragment="listOfMessages(messages, currentUser)">
+<div class="justify-content-md-center" data-th-fragment="listOfMessages(messages, currentUser)">
     <div data-th-each="message:${messages}">
-        <div>
-            <span>Author: </span>
-            <span data-th-utext="${message.getAuthor()!=null}?${message.getAuthor().getFullName()}:'Unknown user'"></span>
+        <div class="card border-dark mt-4 mb-4 text-left">
+            <div class="container">
+                <div class="row align-items-baseline">
+                    <div class="col-2">
+                        <h6 class="text-muted mt-4 mb-4"
+                            style="white-space: pre-wrap"
+                            data-th-text="${message.getAuthor()!=null}?${message.getAuthor().getFullName()}:'<Unknown user>'"></h6>
+                    </div>
+                    <div class="col">
+                        <h4 class="mt-4 mb-4"
+                            style="white-space: pre-wrap"
+                            data-th-text="${message.getText().trim().length()!=0}?${message.getText()}:'<Without Text>'"></h4>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer text-muted">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <span class="align-middle" data-th-text="${message.getCreationDate()!=null}?${#dates.format(message.getCreationDate().getTime(),'hh:mm:ss dd-MM-yyyy')}:'<Unknown date>'"></span>
+                    </div>
+                    <div data-th-if="${currentUser} and (${currentUser.isAdmin()} or ${currentUser.getId()} == ${message.getAuthor().getId()})">
+                        <form id="deleteMessage"
+                              data-th-action="@{/message/soft-delete}"
+                              method="post">
+                            <input type="hidden" name="messageId" data-th-value="${message.getId()}">
+                        </form>
+                        <button form="deleteMessage" type="submit" class="btn btn btn-danger">Delete</button>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div>
-            <span>Creation Date: </span>
-            <span data-th-utext="${message.getCreationDate()!=null}?${message.getCreationDate().getTime()}:'Unknown date'"></span>
-        </div>
-        <div>
-            <span>Message: </span>
-            <span data-th-utext="${message.getText()}"></span>
-        </div>
-        <form data-th-if="${currentUser.isAdmin()} or ${currentUser.getId()} == ${message.getAuthor().getId()}"
-              data-th-action = "@{/message/soft-delete}"
-              method="post">
-            <div hidden="true"><label><input name="messageId" required="true" data-th-value="${message.getId()}"></label></div>
-            <div> <input type="submit" value="Delete Message"></div>
-        </form>
-        <br>
     </div>
 </div>
 </body>
