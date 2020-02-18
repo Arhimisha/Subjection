@@ -26,14 +26,35 @@
         <div data-th-if="error">
             [[ ${error} ]]
         </div>
+        <h1 class="mb-5 font-weight-normal">Register for subjection subjects</h1>
         <form data-th-action="@{/registration}" method="post">
-            <div><label>Login: <input name="username" type ="text" placeholder="Login" required> </label></div>
-            <div><label>Password: <input name="password" type="password" placeholder="Password" required> </label></div>
-            <div><label>Conform: <input name="conform" type="password" placeholder="Conform password" required> </label></div>
-            <div><label>First name: <input name="firstName" type="text" placeholder="First name" required> </label></div>
-            <div><label>Last name: <input name="lastName" type="text" placeholder="Last name" required> </label></div>
-            <div><label>Email: <input name="email" type="email" placeholder="email@email.com" required> </label></div>
-            <div><button>Registration</button></div>
+            <div class="form-group row justify-content-center">
+                <label for="Login" class="col-sm-2 col-form-label text-left pl-1">Login</label>
+                <input class="form-control col-sm-5" id="Login" name="username" type ="text" placeholder="Login" required>
+            </div>
+            <div class="form-group row justify-content-center">
+                <label for="Password" class="col-sm-2 col-form-label text-left pl-1">Password</label>
+                <input class="form-control col-sm-5" id="Password" name="password" type="password" placeholder="Password" required>
+            </div>
+            <div class="form-group row justify-content-center">
+                <label for="Conform" class="col-sm-2 col-form-label text-left pl-1">Conform</label>
+                <input class="form-control col-sm-5" id="Conform" name="conform" type="password" placeholder="Conform password" required>
+            </div>
+            <div class="form-group row justify-content-center">
+                <label for="First name" class="col-sm-2 col-form-label text-left pl-1">First name</label>
+                <input class="form-control col-sm-5" id="First name" name="firstName" type="text" placeholder="First name" required>
+            </div>
+            <div class="form-group row justify-content-center">
+                <label for="Last name" class="col-sm-2 col-form-label text-left pl-1">Last name</label>
+                <input class="form-control col-sm-5" id="Last name" name="lastName" type="text" placeholder="Last name" required>
+            </div>
+            <div class="form-group row justify-content-center">
+                <label for="Email" class="col-sm-2 col-form-label text-left pl-1">Email</label>
+                <input class="form-control col-sm-5" id="Email" name="email" type="email" placeholder="email@email.com" required>
+            </div>
+            <div class="row justify-content-center">
+                <button class="col-7 btn btn-lg btn-dark btn-block" type="submit">Registration</button>
+            </div>
         </form>
         <br>
     </main>
