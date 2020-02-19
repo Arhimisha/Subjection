@@ -9,9 +9,9 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.arhimisha</groupId>
-    <artifactId>intech</artifactId>
+    <artifactId>subjection</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>intech</name>
+    <name>subjection</name>
     <description>Demo project for Spring Boot</description>
 
     <properties>
