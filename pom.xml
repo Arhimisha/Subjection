@@ -16,9 +16,12 @@
 
     <properties>
         <java.version>11</java.version>
-        <datasource.url>jdbc:postgresql://localhost:5432/intech</datasource.url>
-        <datasource.user>postgres</datasource.user>
-        <datasource.password>12345678</datasource.password>
+        <!--suppress UnresolvedMavenProperty -->
+        <datasource.url>${JDBC_DATABASE_URL}</datasource.url>
+        <!--suppress UnresolvedMavenProperty -->
+        <datasource.user>${JDBC_DATABASE_USERNAME}</datasource.user>
+        <!--suppress UnresolvedMavenProperty -->
+        <datasource.password>${JDBC_DATABASE_PASSWORD}</datasource.password>
     </properties>
 
     <dependencies>
