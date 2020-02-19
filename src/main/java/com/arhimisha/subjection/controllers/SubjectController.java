@@ -13,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -25,14 +26,13 @@ import java.util.Optional;
 public class SubjectController extends BaseController {
 
     private final SubjectService subjectService;
-    private final UserService userService;
     private final MessageService messageService;
     private final int PAGE_SIZE = 10;
 
     @Autowired
     public SubjectController(SubjectService subjectService, UserService userService, MessageService messageService) {
+        super(userService);
         this.subjectService = subjectService;
-        this.userService = userService;
         this.messageService = messageService;
     }
 
@@ -72,11 +72,12 @@ public class SubjectController extends BaseController {
         model.addObject("currentPage", pageNumber);
         model.addObject("totalPages", messagesPage.getTotalPages());
 
-        final Optional<User> user = this.userService.findUserByUsername(userDetails.getUsername());
-        if (user.isEmpty() || !user.get().isEnabled()) {
-            throw new RuntimeException("User " + userDetails.getUsername() + " is not exist");
+        try {
+            final Optional<User> user = this.checkUserDetails(userDetails);
+            model.addObject("currentUser", user.get());
+        } catch (UsernameNotFoundException e) {
+            return this.getErrorPage(userDetails,e.getMessage());
         }
-        model.addObject("currentUser", user.get());
         return model;
     }
 

@@ -10,6 +10,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -20,14 +21,13 @@ import java.util.Optional;
 @Controller
 public class MainController extends  BaseController {
 
-    private final UserService userService;
     private final SubjectRepository subjectRepository;
     private final int PAGE_SIZE = 10;
 
     @Autowired
     public MainController(UserService userService,
                           SubjectRepository subjectRepository) {
-        this.userService = userService;
+        super(userService);
         this.subjectRepository = subjectRepository;
     }
 
@@ -38,13 +38,12 @@ public class MainController extends  BaseController {
     ) {
         final ModelAndView model = new ModelAndView("main");
         if (userDetails != null) {
-            final Optional<User> user = this.userService.findUserByUsername(userDetails.getUsername());
-            if (user.isEmpty() || !user.get().isEnabled()) {
-                return this.getErrorPage(userDetails,"User " + userDetails.getUsername() + " is not exist");
-            }
-            if (user.isPresent()) {
+            try {
+                final Optional<User> user = this.checkUserDetails(userDetails);
                 model.addObject("userFullName", user.get().getFullName());
                 model.addObject("currentUser", user.get());
+            } catch (UsernameNotFoundException e) {
+                return this.getErrorPage(userDetails,e.getMessage());
             }
         }
 

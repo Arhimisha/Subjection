@@ -17,11 +17,9 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/registration")
 public class RegistrationController extends BaseController {
 
-    private final UserService userService;
-
     @Autowired
     public RegistrationController(UserService userService) {
-        this.userService = userService;
+        super(userService);
     }
 
     @GetMapping
