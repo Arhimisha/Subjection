@@ -32,6 +32,7 @@ public class RegistrationController extends BaseController {
     @PostMapping
     public ModelAndView registerUser(RegistrationDetails registrationDetails){
         ModelAndView model =new ModelAndView();
+        model.addObject("registrationDetails", registrationDetails);
         try{
             this.userService.registrationUser(registrationDetails);
             model.setViewName("redirect:/login");
