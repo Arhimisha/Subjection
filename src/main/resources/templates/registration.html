@@ -6,7 +6,8 @@
 
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 <style>
     html,
     body {
@@ -16,7 +17,7 @@
 
 <head>
     <title>Registration</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 </head>
 <body class="text-center">
 <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
@@ -30,27 +31,49 @@
         <form data-th-action="@{/registration}" method="post">
             <div class="form-group row justify-content-center">
                 <label for="Login" class="col-sm-2 col-form-label text-left pl-1">Login</label>
-                <input class="form-control col-sm-5" id="Login" name="username" type ="text" placeholder="Login" required>
+                <div class="col-sm-5 pl-0 pr-0">
+                    <input data-th-class="${LoginError}?'form-control is-invalid':'form-control'"
+                           id="Login" name="username" type="text" placeholder="Login" required>
+                    <div data-th-if="${LoginError}" class="invalid-feedback text-left pl-1"
+                         data-th-text="${LoginError}"></div>
+                </div>
             </div>
             <div class="form-group row justify-content-center">
                 <label for="Password" class="col-sm-2 col-form-label text-left pl-1">Password</label>
-                <input class="form-control col-sm-5" id="Password" name="password" type="password" placeholder="Password" required>
+                <div class="col-sm-5 pl-0 pr-0">
+                    <input data-th-class="${PasswordConfirmError}?'form-control is-invalid':'form-control'"
+                           id="Password" name="password" type="password" placeholder="Password" required >
+                    <div data-th-if="${PasswordConfirmError}" class="invalid-feedback text-left pl-1"
+                         data-th-text="${PasswordConfirmError}"></div>
+                </div>
             </div>
             <div class="form-group row justify-content-center">
-                <label for="Conform" class="col-sm-2 col-form-label text-left pl-1">Conform</label>
-                <input class="form-control col-sm-5" id="Conform" name="conform" type="password" placeholder="Conform password" required>
+                <label for="Confirm" class="col-sm-2 col-form-label text-left pl-1">Confirm</label>
+                <div class="col-sm-5 pl-0 pr-0">
+                    <input data-th-class="${PasswordConfirmError}?'form-control is-invalid':'form-control'"
+                           id="Confirm" name="confirm" type="password" placeholder="Confirm password" required>
+                    <div data-th-if="${PasswordConfirmError}" class="invalid-feedback text-left pl-1"
+                         data-th-text="${PasswordConfirmError}"></div>
+                </div>
             </div>
             <div class="form-group row justify-content-center">
                 <label for="First name" class="col-sm-2 col-form-label text-left pl-1">First name</label>
-                <input class="form-control col-sm-5" id="First name" name="firstName" type="text" placeholder="First name" required>
+                <input class="form-control col-sm-5" id="First name" name="firstName" type="text"
+                       placeholder="First name" required>
             </div>
             <div class="form-group row justify-content-center">
                 <label for="Last name" class="col-sm-2 col-form-label text-left pl-1">Last name</label>
-                <input class="form-control col-sm-5" id="Last name" name="lastName" type="text" placeholder="Last name" required>
+                <input class="form-control col-sm-5" id="Last name" name="lastName" type="text" placeholder="Last name"
+                       required>
             </div>
             <div class="form-group row justify-content-center">
                 <label for="Email" class="col-sm-2 col-form-label text-left pl-1">Email</label>
-                <input class="form-control col-sm-5" id="Email" name="email" type="email" placeholder="email@email.com" required>
+                <div class="col-sm-5 pl-0 pr-0">
+                    <input data-th-class="${EmailError}?'form-control is-invalid':'form-control'"
+                            id="Email" name="email" type="email" placeholder="email@email.com" required>
+                    <div data-th-if="${EmailError}" class="invalid-feedback text-left pl-1"
+                         data-th-text="${EmailError}"></div>
+                </div>
             </div>
             <div class="row justify-content-center">
                 <button class="col-7 btn btn-lg btn-dark btn-block" type="submit">Registration</button>
@@ -62,9 +85,15 @@
     <div data-th-replace="~{fragments/footer::footer}"></div>
 </div>
 
-<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
 
 </body>
 </html>

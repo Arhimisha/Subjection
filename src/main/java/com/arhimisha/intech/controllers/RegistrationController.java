@@ -1,6 +1,9 @@
 package com.arhimisha.intech.controllers;
 
 import com.arhimisha.intech.registration.RegistrationDetails;
+import com.arhimisha.intech.registration.exceptions.EmailAlreadyExistsException;
+import com.arhimisha.intech.registration.exceptions.PasswordConfirmException;
+import com.arhimisha.intech.registration.exceptions.UserAlreadyExistsException;
 import com.arhimisha.intech.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -8,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @RequestMapping("/registration")
@@ -26,13 +30,28 @@ public class RegistrationController extends BaseController {
     }
 
     @PostMapping
-    public String registerUser(RegistrationDetails registrationDetails, Model model){
+    public ModelAndView registerUser(RegistrationDetails registrationDetails){
+        ModelAndView model =new ModelAndView();
         try{
             this.userService.registrationUser(registrationDetails);
         } catch (RuntimeException e){
-            model.addAttribute("error", e.getMessage());
-            return "registration";
+            model.addObject("error", e.getMessage());
+            model.setViewName("error");
+            return model;
+        } catch (UserAlreadyExistsException e) {
+            model.addObject("LoginError", "User with this login already exist");
+            model.setViewName("registration");
+            return model;
+        } catch (PasswordConfirmException e) {
+            model.addObject("PasswordConfirmError", "Password is not confirmed");
+            model.setViewName("registration");
+            return model;
+        } catch (EmailAlreadyExistsException e) {
+            model.addObject("EmailError","User with this email already exists");
+            model.setViewName("registration");
+            return model;
         }
-        return "redirect:/login";
+        model.setViewName("redirect:/login");
+        return model;
     }
 }

@@ -3,6 +3,9 @@ package com.arhimisha.intech.services;
 import com.arhimisha.intech.domain.Authority;
 import com.arhimisha.intech.domain.User;
 import com.arhimisha.intech.registration.RegistrationDetails;
+import com.arhimisha.intech.registration.exceptions.EmailAlreadyExistsException;
+import com.arhimisha.intech.registration.exceptions.PasswordConfirmException;
+import com.arhimisha.intech.registration.exceptions.UserAlreadyExistsException;
 import com.arhimisha.intech.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -42,7 +45,7 @@ public class UserService implements UserDetailsService {
         return userRepository.findByUsername(username);
     }
 
-    public void registrationUser(RegistrationDetails registrationDetails) {
+    public void registrationUser(RegistrationDetails registrationDetails) throws UserAlreadyExistsException, PasswordConfirmException, EmailAlreadyExistsException {
         final String username = registrationDetails.getUsername();
         final String password = registrationDetails.getPassword();
         final String email = registrationDetails.getEmail();
@@ -58,15 +61,15 @@ public class UserService implements UserDetailsService {
         }
 
         if (userRepository.findByUsername(username).isPresent()) {
-            throw new RuntimeException("User with username " + username + " is already exist");
+            throw new UserAlreadyExistsException("User with username " + username + " is already exist");
+        }
+        if (!password.equals(registrationDetails.getConfirm())) {
+            throw new PasswordConfirmException("Password is not confirmed");
         }
         if (userRepository.findByEmail(email).isPresent()) {
-            throw new RuntimeException("User with email " + email + " is already exist");
+            throw new EmailAlreadyExistsException("User with email " + email + " is already exist");
         }
 
-        if (!password.equals(registrationDetails.getConform())) {
-            throw new RuntimeException("Password doesn't match");
-        }
 
         User user = new User(
                 0L,

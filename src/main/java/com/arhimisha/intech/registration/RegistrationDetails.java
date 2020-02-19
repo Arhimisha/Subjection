@@ -3,7 +3,7 @@ package com.arhimisha.intech.registration;
 public class RegistrationDetails {
     private String username;
     private String password;
-    private String conform;
+    private String confirm;
     private String firstName;
     private String lastName;
     private String email;
@@ -11,7 +11,7 @@ public class RegistrationDetails {
     public RegistrationDetails(String username, String password, String conform, String firstName, String lastName, String email) {
         this.username = username;
         this.password = password;
-        this.conform = conform;
+        this.confirm = conform;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -36,12 +36,12 @@ public class RegistrationDetails {
         this.password = password;
     }
 
-    public String getConform() {
-        return conform;
+    public String getConfirm() {
+        return confirm;
     }
 
-    public void setConform(String conform) {
-        this.conform = conform;
+    public void setConfirm(String conform) {
+        this.confirm = conform;
     }
 
     public String getFirstName() {
