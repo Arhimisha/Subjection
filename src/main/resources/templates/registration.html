@@ -41,10 +41,14 @@
             <div class="form-group row justify-content-center">
                 <label for="Password" class="col-sm-2 col-form-label text-left pl-1">Password</label>
                 <div class="col-sm-5 pl-0 pr-0">
-                    <input data-th-class="${PasswordConfirmError}?'form-control is-invalid':'form-control'"
+                    <input data-th-class="(${PasswordConfirmError} or ${PasswordComplianceError})?'form-control is-invalid':'form-control'"
                            id="Password" name="password" type="password" placeholder="Password" required >
+                    <small id="passwordHelp" class="form-text text-muted text-left pl-1">At least 8 characters, at least 1 lowercase letter, at least 1 uppercase letter and at least one characters of !@#$%</small>
                     <div data-th-if="${PasswordConfirmError}" class="invalid-feedback text-left pl-1"
                          data-th-text="${PasswordConfirmError}"></div>
+
+                    <div data-th-if="${PasswordComplianceError}" class="invalid-feedback text-left pl-1"
+                         data-th-text="${PasswordComplianceError}"></div>
                 </div>
             </div>
             <div class="form-group row justify-content-center">

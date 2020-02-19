@@ -3,6 +3,7 @@ package com.arhimisha.intech.services;
 import com.arhimisha.intech.domain.Authority;
 import com.arhimisha.intech.domain.User;
 import com.arhimisha.intech.registration.RegistrationDetails;
+import com.arhimisha.intech.registration.exceptions.ComplianceRequirementsException;
 import com.arhimisha.intech.registration.exceptions.EmailAlreadyExistsException;
 import com.arhimisha.intech.registration.exceptions.PasswordConfirmException;
 import com.arhimisha.intech.registration.exceptions.UserAlreadyExistsException;
@@ -22,6 +23,8 @@ import java.util.Optional;
 @Service
 @Transactional
 public class UserService implements UserDetailsService {
+
+    private final static String PASSWORD_REGEX ="(?=.*[0-9])(?=.*[!@#$%])(?=.*[a-z])(?=.*[A-Z])[0-9!@#$%^&*a-zA-Z]{8,}";
 
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
@@ -45,7 +48,7 @@ public class UserService implements UserDetailsService {
         return userRepository.findByUsername(username);
     }
 
-    public void registrationUser(RegistrationDetails registrationDetails) throws UserAlreadyExistsException, PasswordConfirmException, EmailAlreadyExistsException {
+    public void registrationUser(RegistrationDetails registrationDetails) throws UserAlreadyExistsException, PasswordConfirmException, EmailAlreadyExistsException, ComplianceRequirementsException {
         final String username = registrationDetails.getUsername();
         final String password = registrationDetails.getPassword();
         final String email = registrationDetails.getEmail();
@@ -62,6 +65,9 @@ public class UserService implements UserDetailsService {
 
         if (userRepository.findByUsername(username).isPresent()) {
             throw new UserAlreadyExistsException("User with username " + username + " is already exist");
+        }
+        if (!password.matches(PASSWORD_REGEX)){
+            throw new ComplianceRequirementsException("Password is not compliant with requirements");
         }
         if (!password.equals(registrationDetails.getConfirm())) {
             throw new PasswordConfirmException("Password is not confirmed");
