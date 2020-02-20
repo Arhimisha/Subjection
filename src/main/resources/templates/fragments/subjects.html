@@ -26,9 +26,9 @@
             </div>
             <div class="card-footer text-muted">
                 <div class="d-flex justify-content-between align-items-center">
-                    <div>
-                        <span class="align-middle text-left">Last update: </span>
-                        <span class="align-middle text-left">In development</span>
+                    <div class="align-middle text-left">
+                        <span>Last update: </span>
+                        <span>In development</span>
                     </div>
                     <div data-th-if="${currentUser} and (${currentUser.isAdmin()} or ${currentUser.getId()} == ${subject.getAuthor().getId()})">
                         <form id="deleteSubject"
