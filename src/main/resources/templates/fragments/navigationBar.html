@@ -3,25 +3,28 @@
 <body>
 <header class="masthead mb-auto" data-th-fragment="bar(currentUser, search)">
     <nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4" >
-        <div class="navbar-brand">Subjection</div>
+        <a class="navbar-brand" href="/">Subjection</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
+                <li class="nav-item active text-left">
                     <a class="nav-link" href="/">Home<span class="sr-only">(current)</span></a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item text-left">
                     <a data-th-class="${currentUser}==null?'nav-link':'nav-link disabled'"
                        data-th-tabindex="${currentUser}!=null?'-1':_"
                        data-th-attr="aria-disabled=(${currentUser}!=null?'true':_)"
                        href="/registration">Register</a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item text-left">
                     <a data-th-class="${currentUser}==null?'nav-link':'nav-link disabled'"
                        data-th-tabindex="${currentUser}!=null?'-1':_"
                        data-th-attr="aria-disabled=(${currentUser}!=null?'true':_)"
                        href="/login">Log in</a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item text-left">
                     <form class="form-inline" id="logout" data-th-action="@{/logout}" method="post">
                         <a data-th-class="${currentUser}!=null?'nav-link':'nav-link disabled'"
                            data-th-tabindex="${currentUser}==null?'-1':_"
