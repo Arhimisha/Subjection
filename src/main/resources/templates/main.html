@@ -24,7 +24,7 @@
 
     <main role="main" class="inner cover container">
         <h1 class="mb-2" data-th-text="'Hello, '+(${userFullName != null}? ${userFullName}:'friend') + '!'"/>
-        <h1 class="mb-4" data-th-text="${userFullName}? 'Authorize and create a new subject or discuss existing subjects.':'Create a new subject or discuss existing subjects.'"/>
+        <h1 class="mb-4" data-th-text="${userFullName}?'Create a new subject or discuss existing subjects.':'Authorize and create a new subject or discuss existing subjects.'"/>
 
         <div data-th-if="${currentUser}">
             <button type="button" class="btn btn-primary btn btn-dark mb-4" data-toggle="modal" data-target="#createNewSubject">
